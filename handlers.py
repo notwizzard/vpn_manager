@@ -1,6 +1,7 @@
 from aiohttp import web
 from http import HTTPStatus
 import subprocess
+import os
 
 
 access_tokens = [
@@ -14,9 +15,10 @@ def check_token(request) -> bool:
 
 
 def git_push(action, vpn_client):
-    create_command = f"bash push_vpn_configs.sh {action} {vpn_client} &"
-    process = subprocess.Popen(create_command.split(), shell=False, stdin=None, stdout=None, stderr=None, close_fds=True)
-    output, error = process.communicate()
+    push_command = f"bash push_vpn_configs.sh {action} {vpn_client} &"
+    os.spawnlp(os.P_NOWAIT, push_command.split())
+    # process = subprocess.Popen(create_command.split(), shell=False, stdin=None, stdout=None, stderr=None, close_fds=True)
+    # output, error = process.communicate()
 
 
 async def create(request):
@@ -39,8 +41,8 @@ async def remove(request):
     
     vpn_client = request.match_info['vpn_client']
 
-    create_command = f"bash remove_openvpn_client.sh {vpn_client}"
-    process = subprocess.Popen(create_command.split(), stdout=subprocess.PIPE)
+    remove_command = f"bash remove_openvpn_client.sh {vpn_client}"
+    process = subprocess.Popen(remove_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
     git_push('rm', vpn_client)

@@ -16,9 +16,9 @@ def check_token(request) -> bool:
 
 def git_push(action, vpn_client):
     push_command = f"bash push_vpn_configs.sh {action} {vpn_client} &"
-    os.spawnlp(os.P_NOWAIT, push_command.split())
-    # process = subprocess.Popen(create_command.split(), shell=False, stdin=None, stdout=None, stderr=None, close_fds=True)
-    # output, error = process.communicate()
+    # os.spawnlp(os.P_NOWAIT, push_command.split())
+    process = subprocess.Popen(push_command.split(), shell=False, stdin=None, stdout=None, stderr=None, close_fds=True)
+    output, error = process.communicate()
 
 
 async def create(request):

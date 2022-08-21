@@ -22,9 +22,3 @@ cd /etc/openvpn/server/easy-rsa/
 EASYRSA_CERT_EXPIRE=3650 ./easyrsa build-client-full "$client" nopass
 # Generates the custom client.ovpn
 new_client
-
-cd ~/vpn_configs/
-git pull
-git add *
-git commit -m "create client bash script"
-git push

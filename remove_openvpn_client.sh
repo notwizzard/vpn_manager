@@ -9,9 +9,3 @@ cp /etc/openvpn/server/easy-rsa/pki/crl.pem /etc/openvpn/server/crl.pem
 chown nobody:"$group_name" /etc/openvpn/server/crl.pem
 
 rm ~/vpn_configs/$client.ovpn
-cd ~/vpn_configs/
-
-git pull
-git rm $client.ovpn
-git commit -m "remove client bash script"
-git push

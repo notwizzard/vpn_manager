@@ -7,6 +7,7 @@ import os
 access_tokens = [
     'telegram_bot'
 ]
+with_docker_compose = False
 
 
 def check_token(request) -> bool:
@@ -26,7 +27,9 @@ async def create(request):
 
     vpn_client = request.match_info['vpn_client']
 
-    create_command = f"bash create_openvpn_client.sh {vpn_client}"
+    script_name = "create_openvpn_client.sh" if not with_docker_compose \
+        else "docker_compose_create_openvpn_client.sh"
+    create_command = f"bash {script_name} {vpn_client}"
     process = subprocess.Popen(create_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
@@ -40,7 +43,9 @@ async def remove(request):
     
     vpn_client = request.match_info['vpn_client']
 
-    remove_command = f"bash remove_openvpn_client.sh {vpn_client}"
+    script_name = "remove_openvpn_client.sh" if not with_docker_compose \
+        else "docker_compose_remove_openvpn_client.sh"
+    remove_command = f"bash {script_name} {vpn_client}"
     process = subprocess.Popen(remove_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
